@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scripts/Caracol.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Enemy/caracol_run0.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Enemy/caracol_run1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Enemy/caracol_dead0.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Enemy/caracol_dead1.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "dead",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 16.2488
+height = 36.9698
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 13.7695
+height = 28.9601
+
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 3.56689
+
+[node name="Caracol" type="StaticBody2D"]
+editor/display_folded = true
+position = Vector2( 936.456, 364.158 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 4, 4 )
+frames = SubResource( 3 )
+animation = "run"
+
+[node name="Corpo" type="CollisionShape2D" parent="."]
+position = Vector2( 2.52454, 3.62903 )
+rotation = 1.5708
+shape = SubResource( 4 )
+
+[node name="Casco" type="Area2D" parent="."]
+
+[node name="Area" type="CollisionShape2D" parent="Casco"]
+position = Vector2( 2.98132, -1.51782 )
+rotation = 1.5708
+shape = SubResource( 5 )
+
+[node name="Pe" type="Area2D" parent="."]
+
+[node name="Area" type="CollisionShape2D" parent="Pe"]
+position = Vector2( -3.02301, 7.7464 )
+shape = SubResource( 6 )
+
+[connection signal="body_entered" from="Casco" to="." method="_on_Casco_body_entered"]
+[connection signal="body_exited" from="Pe" to="." method="_on_Pe_body_exited"]
